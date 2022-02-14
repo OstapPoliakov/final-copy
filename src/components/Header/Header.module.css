@@ -1,0 +1,56 @@
+nav {
+    height: 80px;
+    background-color: #99ccff;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    padding-left: 10px;
+    padding-right: 10px;
+    /* margin: 0 auto; */
+    margin-bottom: 30px;
+}
+
+.item {
+    padding: 10px;
+    width: 30%;
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin-left: 5px;
+    font-size: 18px;
+}
+
+.item:hover {
+    opacity: 0.8;
+    background-color: #162b4d;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.active {
+    text-decoration: none;
+    color: wheat;
+}
+
+.links {
+    width: 40%;
+    display: flex;
+    justify-content: flex-end;
+/*     text-align: center; */
+    align-items: center;
+    font-weight: bold;
+    align-items: stretch;
+}
+
+.burger-icon {
+    display: none;
+}
+
+.logo {
+    width: 7%;
+    height: 80px;
+    background-size: cover;
+    background-position: left;
+    background-image: url('../../img/pokeball-png-45332.png');
+}
