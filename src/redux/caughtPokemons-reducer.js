@@ -45,11 +45,10 @@ export const caughtPokemonsThunk = (id) => {
     dispatch(setLoadingAC(true));
 
     let response = await pokemonAPI.getPokemons(id,1);
-    let results = response.results;
-    console.log('Results: ',results)
+    let results =  response.results;
     // помещаем в store
-    dispatch(setCaughtPokemonsAC(results));
-    dispatch(setLoadingAC(false));
+     dispatch(setCaughtPokemonsAC(results));
+     dispatch(setLoadingAC(false));
   };
 };
 

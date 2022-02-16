@@ -17,7 +17,6 @@ const App = () =>  {
   const catchPokemon = (id) => {
       sessionStorage.setItem(id, 'true');
       setCaughtPoks((prev) => [...prev, id]);
-      console.log(caughtPoks, 'caughtPoks: ');
   }
 
   return (
@@ -32,7 +31,7 @@ const App = () =>  {
               <Route path="*" element = {<PageNotFound />} />
               <Route path="/main/*" element = {<PokemonsListContainer catchPokemon = {catchPokemon} />} />
               <Route path="/caught/*" element = {<CaughtPokemonsContainer caughtPoks = {caughtPoks} />} />
-              <Route exact path="/pokemon/:pokemonId" element = {<PokemonPageContainer /> } />
+              <Route path="/pokemon/:pokemonId" element = {<PokemonPageContainer /> } />
             </Routes>
         </div>
       </div>

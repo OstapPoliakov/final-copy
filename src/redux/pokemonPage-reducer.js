@@ -42,11 +42,10 @@ export const setLoadingAC = (isFetching) => ({
 // Thunks
 export const getPokemonPageThunk = (pokemonId) => {
     return async (dispatch) => {
+      console.log('THUNK')
         dispatch(setLoadingAC(true));
-        
         let response = await pokemonAPI.getPokemonInfo(pokemonId);
         let result = await response;
-        console.log('response: ',response);
         // кладем результаты в store
         dispatch(setPokemonAC(result));
         dispatch(setLoadingAC(false));

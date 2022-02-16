@@ -1,5 +1,14 @@
 // Презентационная компонента
-export const PokemonPage = ({id, name, img, weight, abilities, types, isCatched}) => {
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+
+export const PokemonPage = ({id, name, img, weight, abilities= [], types, isCatched, getPokemonPageThunk}) => {
+    
+    const params = useParams();
+    const pokemonId = params.pokemonId;
+
+    const abila = abilities.map((element, i) => <div key={i}>{element.ability.name}</div>)
     return (
         <>
 {/*             <div>
@@ -10,29 +19,8 @@ export const PokemonPage = ({id, name, img, weight, abilities, types, isCatched}
                 ID: {id} <br/>
                 Wight: {weight}
             </div>
-            <div>
-            Abilities:
-            {
-                abilities.length > 0 &&
-                abilities.map((item, i) => (
-                    <li>                                  
-                        <div>{item.ability.name}</div>
-                    </li>
-                ))
-            }
-            </div>
-            <div>
-            Types:
-            {
-                types.length > 0 &&
-                types.map((item) => (
-                    <li>                                  
-                        <div>{item.type.name}</div>
-                    </li>
-                ))
-            }
-            {isCatched ? <div>Status: catched</div> : null}
-            </div>
+            {abila}
+         
         </>
     );
 }

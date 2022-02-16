@@ -10,7 +10,6 @@ const CaughtPokemonsContainer = (props) => {
      
     useEffect(() => {
         for (let i = 0; i < props.caughtPoks.length; i++) {
-            console.log(props.caughtPoks[i] + ', i = ' + i);
             props.caughtPokemonsThunk(props.caughtPoks[i]);
         }
     }, []);

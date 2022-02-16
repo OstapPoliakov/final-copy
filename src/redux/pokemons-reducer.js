@@ -45,8 +45,7 @@ export const getPokemonsListThunk = (pokCount) => {
         dispatch(setLoadingAC(true));
         
         let response = await pokemonAPI.getPokemons(0,pokCount);
-        let results = response.results;
-        console.log(results);
+        let results = await response.results;
         // кладем результаты в store
         dispatch(setPokemonsListAC(results));
         dispatch(setLoadingAC(false));
