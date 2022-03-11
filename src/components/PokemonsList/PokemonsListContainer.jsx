@@ -4,43 +4,43 @@ import { getPokemonsListThunk } from "../../redux/pokemons-reducer";
 import { getPokemonPageThunk } from "../../redux/pokemonPage-reducer";
 import Preloader from "../common/Preloader/Preloader";
 import { Pokemon } from "./Pokemon";
-import { PokemonPage } from "../PokemonPage/PokemonPage";
+import { caughtPokemonsThunk } from "../../redux/caughtPokemons-reducer";
+/* import { PokemonPage } from "../PokemonPage/PokemonPage"; */
+import PropTypes from "prop-types";
 
 const POKEMONS_COUNT = 12;
 
 // контейнерная компонента
-const PokemonListContainer = (props) => {
+const PokemonListContainer = ({getPokemonsListThunk, caughtPokemonsThunk, pokemons, isFetching, catchPokemon, getIdFromURL}) => {
     
     // задаем переменную состояния pokCount, хранящую число запрашиваемых покемонов
     const [pokCount, setPokCount] = useState(POKEMONS_COUNT);
-     // caughtPokemons хранит массив пойманных покемонов
-/*     const [caughtPokemons, setCaughtPokemons] = useState([]);
 
-    const catchPokemon = (id) => {
-        sessionStorage.setItem(id, 'true');
-        console.log(caughtPokemons);
-        setCaughtPokemons((prev) => [...prev, id]);
-        console.log(caughtPokemons);
-    } */
- 
     useEffect(() => {
-        props.getPokemonsListThunk(pokCount);
-/*         return () => {
-            sessionStorage.clear();
-        }; */
+        getPokemonsListThunk(pokCount);
+        /*
+        // Реализуем функциональность CopmponentWillUnmount(): 
+            return () => {
+                sessionStorage.clear();
+            };
+        */
     }, [pokCount]);
 
-    let Pokemons = props.pokemons.map( (pok, i) => {
+    let Pokemons = pokemons.map( (pok, index) => {
+        
+        let id = getIdFromURL(pok.url);
+        
         return (
-            <Pokemon key={i} id = { i + 1 } name = {pok.name} catchPokemon={props.catchPokemon} isDisabled = {sessionStorage.getItem(i+1) ? true : false} getPokemonPageThunk={props.getPokemonPageThunk}/>
+            <Pokemon
+                key={ index }
+                id = { id }
+                name = {pok.name} 
+                catchPokemon={catchPokemon}
+                isDisabled = {sessionStorage.getItem( id ) ? true : false} 
+                thunk = {caughtPokemonsThunk}
+            />
         )
     });
-
-/*     let showPokemonInfo = () => {
-        return (
-            <PokemonPage id = { i + 1 } name = {pok.name} catchPokemon={catchPokemon}/>
-        )
-    } */
 
     const loadMorePokemons = () => {
         setPokCount((prev) => prev + POKEMONS_COUNT);
@@ -49,9 +49,10 @@ const PokemonListContainer = (props) => {
     // отрисовываем презентационную компоненту
     return (
         <>
-            { props.isFetching ? <Preloader /> : null }
+            { isFetching ? <Preloader /> : null }
             { Pokemons }
             <button onClick={ loadMorePokemons }>Load more</button>
+            <button onClick={ () => sessionStorage.clear() }> Clear sessionStorage</button>
         </>
     );
 }
@@ -63,4 +64,13 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps,{ getPokemonsListThunk, getPokemonPageThunk })(PokemonListContainer);
+export default connect(mapStateToProps,{ getPokemonsListThunk, getPokemonPageThunk, caughtPokemonsThunk })(PokemonListContainer);
+
+PokemonListContainer.propTypes = {
+    getPokemonsListThunk: PropTypes.func.isRequired,
+    caughtPokemonsThunk: PropTypes.func.isRequired,
+    pokemons: PropTypes.array.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    catchPokemon: PropTypes.func.isRequired,
+    getIdFromURL: PropTypes.func.isRequired
+}

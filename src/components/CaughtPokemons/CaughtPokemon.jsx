@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 // Презентационная компонента
 export const CaughtPokemon = ({id, name}) => {
     return (
@@ -8,4 +10,9 @@ export const CaughtPokemon = ({id, name}) => {
             </div>
         </>
     );
+}
+
+CaughtPokemon.propTypes = {
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired
 }

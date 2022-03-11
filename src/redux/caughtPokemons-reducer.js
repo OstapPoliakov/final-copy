@@ -5,6 +5,7 @@ const SET_LOADING = "SET_LOADING";
 
 const initialState = {
   caughtPokemons: [],
+  caughtTime: [],
   isLoading: false
 };
 
@@ -43,8 +44,9 @@ export const setLoadingAC = (isLoading) => ({
 export const caughtPokemonsThunk = (id) => {
   return async (dispatch) => {
     dispatch(setLoadingAC(true));
+    console.log('caughtPokemonsThunk');
 
-    let response = await pokemonAPI.getPokemons(id,1);
+    let response = await pokemonAPI.getPokemons(id - 1,1);
     let results =  response.results;
     // помещаем в store
      dispatch(setCaughtPokemonsAC(results));
@@ -53,3 +55,4 @@ export const caughtPokemonsThunk = (id) => {
 };
 
 export default caughtPokemonsReducer;
+

@@ -4,7 +4,13 @@ const SET_POKEMON = "SET_POKEMON";
 const SET_LOADING = "SET_LOADING";
 
 const initialState = {
-  pokemon: {},
+  pokemon: {
+    sprites: {
+      other: {
+        'official-artwork': {}
+      }
+    },
+  },
   isFetching: false
 };
 

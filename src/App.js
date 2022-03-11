@@ -9,15 +9,26 @@ import PokemonsListContainer from './components/PokemonsList/PokemonsListContain
 import CaughtPokemonsContainer from './components/CaughtPokemons/CaughtPokemonsContainer';
 import PokemonPageContainer from './components/PokemonPage/PokemonPageContainer';
 import { PageNotFound } from './components/common/PageNotFound/PageNotFound404';
+/* import { useEffect } from 'react'; */
 
 const App = () =>  {
   // caughtPokemons хранит массив пойманных покемонов
   const [caughtPoks, setCaughtPoks] = useState([]);
-
-  const catchPokemon = (id) => {
-      sessionStorage.setItem(id, 'true');
-      setCaughtPoks((prev) => [...prev, id]);
+/*   console.log('App.js caughtPoks:', caughtPoks); */
+  
+  const catchPokemon = (id, caughtTime) => {
+      sessionStorage.setItem(id, caughtTime);
+      /* setCaughtPoks((prev) => [...prev, id]); */
   }
+
+  const getIdFromURL = (url) => {
+    return Number(url.split("pokemon/")[1].match(/\d+/));
+  }
+
+/*   useEffect (() => {
+    return () => {sessionStorage.clear()}
+  },[]);
+ */
 
   return (
     <Provider store={store}>
@@ -29,8 +40,8 @@ const App = () =>  {
             <Routes>
               <Route exact path="/" element = {<Navigate to="/main" />} />
               <Route path="*" element = {<PageNotFound />} />
-              <Route path="/main/*" element = {<PokemonsListContainer catchPokemon = {catchPokemon} />} />
-              <Route path="/caught/*" element = {<CaughtPokemonsContainer caughtPoks = {caughtPoks} />} />
+              <Route path="/main/*" element = {<PokemonsListContainer catchPokemon = {catchPokemon} getIdFromURL = {getIdFromURL}/>} />
+              <Route path="/caught/*" element = {<CaughtPokemonsContainer caughtPoks = {caughtPoks} getIdFromURL = {getIdFromURL}/>} />
               <Route path="/pokemon/:pokemonId" element = {<PokemonPageContainer /> } />
             </Routes>
         </div>

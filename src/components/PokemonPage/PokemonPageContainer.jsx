@@ -1,37 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getPokemonPageThunk } from "../../redux/pokemonPage-reducer";
-import Preloader from "../common/Preloader/Preloader";
 import { PokemonPage } from "../PokemonPage/PokemonPage";
-
+import Preloader from "../common/Preloader/Preloader";
+import PropTypes from "prop-types";
 
 // контейнерная компонента
-const PokemonPageContainer = (props) => {
+const PokemonPageContainer = ({pokemon, isFetching}) => {
     const params = useParams();
     const pokemonId = params.pokemonId;
+    const dispatch = useDispatch();
 
-    const dispatch = useDispatch()
+    console.log('pokemonId', pokemonId);
+
     useEffect(() => {
-        console.log("HUI")
-        props.getPokemonPageThunk(pokemonId)
-    }, [])
+        
+        if (pokemonId) {
+            dispatch(getPokemonPageThunk(pokemonId));
+        }
 
- 
+        console.log('use effect');
+    }, [pokemonId])
+
+    console.log('obj pokemon: ', pokemon);
+    console.log('isFetching: ', isFetching);
+
     // отрисовываем презентационную компоненту
     return (
         <>
-          {!props.isFetching &&
+        { isFetching ? <Preloader /> :
             <PokemonPage
-                id = {props.pokemon.id}
-                name = {props.pokemon.name}
-                weight = {props.pokemon.weight}
-                abilities = {props.pokemon.abilities}
-                getPokemonPageThunk = {props.getPokemonPageThunk}
+                id = {pokemon.id}
+                name = {pokemon.name}
+                img = {pokemon.sprites.other['official-artwork'].front_default}
+                weight = {pokemon.weight}
+                abilities = {pokemon.abilities}
+                types = {pokemon.types}
+                isCatched={sessionStorage.getItem(pokemonId) ? true : false}
             />
-            
-            }
-    
+        }
         </>
     );
 }
@@ -43,4 +51,9 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps,{ getPokemonPageThunk })(PokemonPageContainer);
+export default connect(mapStateToProps)(PokemonPageContainer);
+
+PokemonPageContainer.propTypes = {
+    pokemon: PropTypes.object.isRequired,
+    isFetching: PropTypes.bool.isRequired
+}

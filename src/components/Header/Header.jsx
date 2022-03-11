@@ -5,7 +5,7 @@ import {NavLink} from "react-router-dom";
 const Header = () => {
     return (
     <header>
-        <div class="burger-icon">
+        <div className = "burger-icon">
             <div></div>
             <div></div>
             <div></div>
